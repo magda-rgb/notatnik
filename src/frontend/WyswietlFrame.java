@@ -4,6 +4,11 @@
  */
 package frontend;
 
+import backend.BazaDanych;
+import backend.Notatka;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author mszwa
@@ -15,6 +20,17 @@ public class WyswietlFrame extends javax.swing.JFrame {
      */
     public WyswietlFrame() {
         initComponents();
+        bd=new BazaDanych();
+        notatka=bd.pobierzNotatke();
+        this.wyswietlNotatke(0);
+  
+    }
+        private void wyswietlNotatke(int idNotatki) {
+        tfNumer.setText(""+notatka.get(idNotatki).getNumer());
+        tfNazwa.setText(""+notatka.get(idNotatki).getNazwa());
+        tfPodanadata.setText(""+notatka.get(idNotatki).getPodanadata());
+        tfOpis.setText(""+notatka.get(idNotatki).getOpis());
+        
     }
 
     /**
@@ -28,21 +44,47 @@ public class WyswietlFrame extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         tfOpis = new javax.swing.JTextArea();
-        bWyswietl = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         tfNazwa = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        tfpodanaData = new javax.swing.JTextField();
+        tfPodanadata = new javax.swing.JTextField();
+        bWstecz = new javax.swing.JButton();
+        bDalej = new javax.swing.JButton();
+        tfNumer = new javax.swing.JTextField();
 
         tfOpis.setColumns(20);
         tfOpis.setRows(5);
         jScrollPane1.setViewportView(tfOpis);
 
-        bWyswietl.setText("Wyswietl");
-
         jLabel1.setText("Nazwa");
 
         jLabel2.setText("Data");
+
+        tfPodanadata.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfPodanadataActionPerformed(evt);
+            }
+        });
+
+        bWstecz.setText("<");
+        bWstecz.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bWsteczActionPerformed(evt);
+            }
+        });
+
+        bDalej.setText(">");
+        bDalej.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bDalejActionPerformed(evt);
+            }
+        });
+
+        tfNumer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfNumerActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -50,27 +92,33 @@ public class WyswietlFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(83, 83, 83)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(bWyswietl)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(tfpodanaData)
-                            .addComponent(tfNazwa, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(tfNumer, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(tfPodanadata)
+                                .addComponent(tfNazwa, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(bWstecz)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(bDalej))))
                 .addContainerGap(103, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(75, Short.MAX_VALUE)
+                .addContainerGap(41, Short.MAX_VALUE)
+                .addComponent(tfNumer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(tfpodanaData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfPodanadata, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -78,12 +126,44 @@ public class WyswietlFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(bWyswietl)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bWstecz)
+                    .addComponent(bDalej))
                 .addGap(42, 42, 42))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tfPodanadataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfPodanadataActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfPodanadataActionPerformed
+
+    private void tfNumerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfNumerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfNumerActionPerformed
+
+    private void bWsteczActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bWsteczActionPerformed
+        // TODO add your handling code here:
+        if(this.idNotatki>0) {
+           idNotatki--;
+           this.wyswietlNotatke(idNotatki);
+       }
+       else{
+           JOptionPane.showMessageDialog(null,"Jesteś na pierwszej notatce" );
+       }
+    }//GEN-LAST:event_bWsteczActionPerformed
+
+    private void bDalejActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDalejActionPerformed
+        // TODO add your handling code here:
+        if(this.idNotatki<notatka.size()-1) {
+           idNotatki++;
+           this.wyswietlNotatke(idNotatki);
+       }
+       else{
+           JOptionPane.showMessageDialog(null,"Jesteś na ostatniej notatce" );
+       }
+    }//GEN-LAST:event_bDalejActionPerformed
 
     /**
      * @param args the command line arguments
@@ -121,12 +201,17 @@ public class WyswietlFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bWyswietl;
+    private javax.swing.JButton bDalej;
+    private javax.swing.JButton bWstecz;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField tfNazwa;
+    private javax.swing.JTextField tfNumer;
     private javax.swing.JTextArea tfOpis;
-    private javax.swing.JTextField tfpodanaData;
+    private javax.swing.JTextField tfPodanadata;
     // End of variables declaration//GEN-END:variables
+    private ArrayList<Notatka> notatka;
+    private int idNotatki;
+    private BazaDanych bd;
 }
